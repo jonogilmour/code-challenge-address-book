@@ -11,6 +11,7 @@ services:
       - db
     env_file:
       - .env
+      - node.env
     environment:
       - NODE_HOST=0.0.0.0
       - PORT=4000

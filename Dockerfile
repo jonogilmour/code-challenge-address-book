@@ -2,6 +2,10 @@ FROM node:12
 
 WORKDIR /
 
+RUN mkdir server
+
+WORKDIR server
+
 # Install node packages beforehand
 COPY package.json .
 COPY package-lock.json .
