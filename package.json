@@ -1,0 +1,32 @@
+{
+    "name": "code-challenge-jonogilmour",
+    "version": "1.0.0",
+    "description": "",
+    "main": "server.js",
+    "dependencies": {
+        "@hapi/hapi": "^20.1.2",
+        "@hapi/inert": "^6.0.3",
+        "@hapi/vision": "^6.0.1",
+        "boom": "^7.2.0",
+        "hapi-swagger": "^14.1.2",
+        "joi": "^17.4.0",
+        "knex": "^0.95.4",
+        "mysql": "^2.18.1",
+        "redis": "2.6.3"
+    },
+    "devDependencies": {
+        "ava": "^3.5.0",
+        "jsdoc": "^3.6.3",
+        "sinon": "^10.0.0"
+    },
+    "scripts": {
+        "test": "MYSQL_DATABASE=jonogilmour_test; PORT=3999; ava --concurrency 1 --verbose -T 15s 'test/**/*.test.js'",
+        "testw": "npm test -- --watch",
+        "start-dev": "node server.js",
+        "start": "docker compose -f docker-compose.yml up --build --abort-on-container-exit",
+        "doc": "npx jsdoc -r -d ./doc -c ./jsdoc.json ."
+    },
+    "author": "jonogilmour",
+    "license": "ISC",
+    "homepage": "https://github.com/jonogilmour"
+}
