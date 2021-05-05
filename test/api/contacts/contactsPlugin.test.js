@@ -18,7 +18,7 @@ test.afterEach.always(async t => {
     sandbox.restore();
 });
 
-test.serial(`GET /v1/contacts/{addressBookId} | should return all contacts in the address book`, async t => {
+test.serial(`GET /v1/address_book/{addressBookId}/contacts | should return all contacts in the address book`, async t => {
     ContactsService.getContacts.withArgs({ addressBookId: '10' }).resolves([
         {
             name: 'Gerald Myers',
@@ -38,7 +38,7 @@ test.serial(`GET /v1/contacts/{addressBookId} | should return all contacts in th
     ]);
     const request = {
         method: 'GET',
-        url: '/contacts/10'
+        url: '/address_book/10/contacts'
     };
 
     const response = await server.inject(request);
@@ -68,11 +68,11 @@ test.serial(`GET /v1/contacts/{addressBookId} | should return all contacts in th
     t.falsy(contactsSchema.contactsList.validate(payload).error);
 });
 
-test.serial(`GET /v1/contacts/{addressBookId} | should return a 404 if the address book is not found`, async t => {
+test.serial(`GET /v1/address_book/{addressBookId}/contacts | should return a 404 if the address book is not found`, async t => {
     ContactsService.getContacts.withArgs({ addressBookId: '10' }).resolves([]);
     const request = {
         method: 'GET',
-        url: '/contacts/10'
+        url: '/address_book/10/contacts'
     };
 
     const response = await server.inject(request);
@@ -81,10 +81,10 @@ test.serial(`GET /v1/contacts/{addressBookId} | should return a 404 if the addre
     t.is(response.result.message, 'Contacts not found');
 });
 
-test.serial(`GET /v1/contacts/{addressBookId} | should return a 400 error if the address book ID is not well formed`, async t => {
+test.serial(`GET /v1/address_book/{addressBookId}/contacts | should return a 400 error if the address book ID is not well formed`, async t => {
     const request = {
         method: 'GET',
-        url: '/contacts/x-9'
+        url: '/address_book/x-9/contacts'
     };
 
     const response = await server.inject(request);
@@ -92,7 +92,7 @@ test.serial(`GET /v1/contacts/{addressBookId} | should return a 400 error if the
     t.is(response.statusCode, 400);
 });
 
-test.serial(`GET /v1/contacts/{addressBookId} | should return all unique contacts between the address book and the compareTo address book`, async t => {
+test.serial(`GET /v1/address_book/{addressBookId}/contacts | should return all unique contacts between the address book and the compareTo address book`, async t => {
     ContactsService.getContactsMultiple.withArgs({ addressBookIds: ['10', '11'] }).resolves([
         {
             name: 'Baggins Myers',
@@ -137,7 +137,7 @@ test.serial(`GET /v1/contacts/{addressBookId} | should return all unique contact
     ]);
     const request = {
         method: 'GET',
-        url: '/contacts/10?compareTo=11'
+        url: '/address_book/10/contacts?compareTo=11'
     };
 
     const response = await server.inject(request);
@@ -162,7 +162,7 @@ test.serial(`GET /v1/contacts/{addressBookId} | should return all unique contact
     t.falsy(contactsSchema.contactsList.validate(payload).error);
 });
 
-test.serial(`GET /v1/contacts/{addressBookId} | should return all unique contacts between the address book and MULTIPLE compareTo address books`, async t => {
+test.serial(`GET /v1/address_book/{addressBookId}/contacts | should return all unique contacts between the address book and MULTIPLE compareTo address books`, async t => {
     ContactsService.getContactsMultiple.withArgs({ addressBookIds: ['10', '11', '12'] }).resolves([
         {
             name: 'Baggins Myers',
@@ -217,7 +217,7 @@ test.serial(`GET /v1/contacts/{addressBookId} | should return all unique contact
     ]);
     const request = {
         method: 'GET',
-        url: '/contacts/10?compareTo=11,12'
+        url: '/address_book/10/contacts?compareTo=11,12'
     };
 
     const response = await server.inject(request);
@@ -247,10 +247,10 @@ test.serial(`GET /v1/contacts/{addressBookId} | should return all unique contact
     t.falsy(contactsSchema.contactsList.validate(payload).error);
 });
 
-test.serial(`GET /v1/contacts/{addressBookId} | should return a 400 error if any of the compareTo IDs are not well formed`, async t => {
+test.serial(`GET /v1/address_book/{addressBookId}/contacts | should return a 400 error if any of the compareTo IDs are not well formed`, async t => {
     const request = {
         method: 'GET',
-        url: '/contacts/10?compareTo=a-1,12'
+        url: '/address_book/10/contacts?compareTo=a-1,12'
     };
 
     const response = await server.inject(request);
@@ -258,10 +258,10 @@ test.serial(`GET /v1/contacts/{addressBookId} | should return a 400 error if any
     t.is(response.statusCode, 400);
 });
 
-test.serial(`GET /v1/contacts/{addressBookId} | should return a 400 error if no compareTo IDs are provided`, async t => {
+test.serial(`GET /v1/address_book/{addressBookId}/contacts | should return a 400 error if no compareTo IDs are provided`, async t => {
     const request = {
         method: 'GET',
-        url: '/contacts/10?compareTo='
+        url: '/address_book/10/contacts?compareTo='
     };
 
     const response = await server.inject(request);

@@ -10,7 +10,7 @@ module.exports.plugin = {
     register: async server => {
         server.route({
             method: 'GET',
-            path: '/contacts/{addressBookId}',
+            path: '/address_book/{addressBookId}/contacts',
             handler: contactsHandler.getContacts,
             config: {
                 description: 'Gets the contacts in an address book.',
