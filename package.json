@@ -23,6 +23,7 @@
     "scripts": {
         "test": "MYSQL_DATABASE=jonogilmour_test; PORT=3999; ava --concurrency 1 --verbose -T 15s 'test/**/*.test.js'",
         "testw": "npm test -- --watch",
+        "testwfor": "MYSQL_DATABASE=jonogilmour_test; PORT=3999; ava --concurrency 1 --verbose --watch -T 15s",
         "start-dev": "node server.js",
         "start": "docker compose -f docker-compose.yml up --build --abort-on-container-exit",
         "doc": "npx jsdoc -r -d ./doc -c ./jsdoc.json ."
