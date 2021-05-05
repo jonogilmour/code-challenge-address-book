@@ -12,6 +12,7 @@ const sandbox = sinon.createSandbox();
 test.beforeEach(async () => {
     sandbox.stub(ContactsService, 'getContacts').rejects();
     sandbox.stub(ContactsService, 'getContactsMultiple').rejects();
+    sandbox.stub(ContactsService, 'addContact').rejects();
 });
 
 test.afterEach.always(async t => {
@@ -267,4 +268,53 @@ test.serial(`GET /v1/address_book/{addressBookId}/contacts | should return a 400
     const response = await server.inject(request);
 
     t.is(response.statusCode, 400);
+});
+
+test.serial(`POST /v1/address_book/{addressBookId}/contacts | should return a 201 response with the new contact information`, async t => {
+    ContactsService.addContact.withArgs({ name: 'Baggins Myers', phoneNumber: '0441', addressBookId: '11' }).resolves({
+        name: 'Baggins Myers',
+        phoneNumber: '0441',
+        addressBookId: '11'
+    });
+
+    const request = {
+        method: 'POST',
+        url: '/address_book/11/contacts',
+        payload: {
+            name: 'Baggins Myers',
+            phoneNumber: '0441'
+        }
+    };
+
+    const response = await server.inject(request);
+    const payload = JSON.parse(response.payload);
+
+    t.is(response.statusCode, 201);
+
+    t.deepEqual(payload, {
+        name: 'Baggins Myers',
+        phoneNumber: '0441',
+        addressBookId: '11'
+    });
+
+    // Ensure the response data is valid
+    t.falsy(contactsSchema.contact.validate(payload).error);
+});
+
+test.serial(`POST /v1/address_book/{addressBookId}/contacts | should return a 409 response if the contact exists already`, async t => {
+    ContactsService.addContact.withArgs({ name: 'Baggins Myers', phoneNumber: '0441', addressBookId: '11' }).rejects(new SymbolError(ContactsService.errors.CONTACT_EXISTS));
+
+    const request = {
+        method: 'POST',
+        url: '/address_book/11/contacts',
+        payload: {
+            name: 'Baggins Myers',
+            phoneNumber: '0441'
+        }
+    };
+
+    const response = await server.inject(request);
+
+    t.is(response.statusCode, 409);
+    t.is(response.result.message, 'Contact already exists');
 });

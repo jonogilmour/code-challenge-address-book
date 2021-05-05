@@ -36,5 +36,34 @@ module.exports.plugin = {
                 }
             }
         });
+
+        server.route({
+            method: 'POST',
+            path: '/address_book/{addressBookId}/contacts',
+            handler: contactsHandler.addContact,
+            config: {
+                description: 'Adds a new contact to an address book.',
+                notes: 'Adds a new contact to an address book.',
+                tags: ['api'],
+                plugins: {
+                    'hapi-swagger': {
+                        responses: {
+                            201: {
+                                description: 'The newly created contact.',
+                                schema: contactsSchema.contact
+                            },
+                            409: {
+                                description: 'The contact already exists',
+                                schema: validation.statusCode[409]
+                            }
+                        }
+                    }
+                },
+                validate: {
+                    params: contactsSchema.params.addContact,
+                    payload: contactsSchema.payload.addContact
+                }
+            }
+        });
     }
 };

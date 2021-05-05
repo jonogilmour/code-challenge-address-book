@@ -16,7 +16,8 @@ const contact = Joi.object({
 const contactsList = Joi.array().items(contact).required().label('List of contacts');
 
 const params = {
-    getContacts: Joi.object({ addressBookId: addressBookId.required() })
+    getContacts: Joi.object({ addressBookId: addressBookId.required() }),
+    addContact: Joi.object({ addressBookId: addressBookId.required() })
 };
 
 const query = {
@@ -30,9 +31,17 @@ const query = {
     })
 };
 
+const payload = {
+    addContact: Joi.object({
+        name: Joi.string().required().label('Contact name'),
+        phoneNumber: Joi.string().required().label('Contact phone number')
+    }).required().label('Contact details')
+};
+
 module.exports = {
     contact,
     contactsList,
     params,
-    query
+    query,
+    payload
 };

@@ -31,10 +31,10 @@ const removeCommon = contacts => {
 
 module.exports = {
     /**
-     * Gets all contacts in an address book. Can also select unique contacts between two address books.
+     * Gets all contacts in an address book. Can also select unique contacts between multiple address books.
      *
      * @param {Request} request - The Hapi request object.
-     * @returns {Response} The order total.
+     * @returns {Response} The contact details.
      */
     getContacts: async request => {
         const { addressBookId } = request.params;
@@ -56,6 +56,30 @@ module.exports = {
             switch (err.code) {
                 case CONTACTS_NOT_FOUND:
                     throw Boom.notFound('Contacts not found');
+                default:
+                    throw Boom.badImplementation(err);
+            }
+        }
+    },
+
+    /**
+     * Adds a new contact to an address book.
+     *
+     * @param {Request} request - The Hapi request object.
+     * @param {Object} h - The Hapi response toolkit.
+     * @returns {Response} The new contact details.
+     */
+    addContact: async (request, t) => {
+        const { addressBookId } = request.params;
+        const { name, phoneNumber } = request.payload;
+
+        try {
+            const contact = await ContactsService.addContact({ name, phoneNumber, addressBookId });
+            return t.response(contact).code(201);
+        } catch (err) {
+            switch (err.code) {
+                case ContactsService.errors.CONTACT_EXISTS:
+                    throw Boom.conflict('Contact already exists');
                 default:
                     throw Boom.badImplementation(err);
             }
