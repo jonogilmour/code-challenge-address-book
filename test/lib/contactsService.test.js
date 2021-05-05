@@ -97,7 +97,7 @@ test.serial(`getContacts | should return an empty array if no contacts were foun
     t.deepEqual((await ContactsService.getContacts({ addressBookId: '600' })).map(x => ({ ...x })), []);
 });
 
-test.serial(`getContactsMultiple | should return all contacts in more than one address book, sorted by name`, async t => {
+test.serial(`getContactsMultiple | should return all contacts in more than one address book, sorted by name and then address book ID`, async t => {
     await knex.batchInsert('contacts', [
         {
             name: 'Yukiko Yamada',
@@ -108,6 +108,11 @@ test.serial(`getContactsMultiple | should return all contacts in more than one a
             name: 'Harold Myers',
             phone_number: '0441',
             address_book_id: '123'
+        },
+        {
+            name: 'Jane Steffen',
+            phone_number: '0445',
+            address_book_id: '125'
         },
         {
             name: 'Jane Steffen',
@@ -136,6 +141,11 @@ test.serial(`getContactsMultiple | should return all contacts in more than one a
             name: 'Jane Steffen',
             phoneNumber: '0445',
             addressBookId: '123'
+        },
+        {
+            name: 'Jane Steffen',
+            phoneNumber: '0445',
+            addressBookId: '125'
         },
         {
             name: 'Yukiko Yamada',
