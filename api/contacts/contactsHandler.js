@@ -66,7 +66,7 @@ module.exports = {
      * Adds a new contact to an address book.
      *
      * @param {Request} request - The Hapi request object.
-     * @param {Object} h - The Hapi response toolkit.
+     * @param {Object} t - The Hapi response toolkit.
      * @returns {Response} The new contact details.
      */
     addContact: async (request, t) => {
