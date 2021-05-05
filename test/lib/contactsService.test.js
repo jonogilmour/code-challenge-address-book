@@ -270,7 +270,7 @@ test.serial(`getContactsMultiple | should return an empty array if all address b
         }
     ]);
 
-    t.deepEqual((await ContactsService.getContactsMultiple({ addressBookIds: ['111', '222', '400'] })).map(x => ({ ...x })), []);
+    t.deepEqual((await ContactsService.getContactsMultiple({ addressBookIds: ['111', '222', '400'] })), []);
 });
 
 test.serial(`getContactsMultiple | should return an empty array if no address books were specified`, async t => {
@@ -298,4 +298,19 @@ test.serial(`getContactsMultiple | should return an empty array if no address bo
     ]);
 
     t.deepEqual((await ContactsService.getContactsMultiple({ addressBookIds: [] })).map(x => ({ ...x })), []);
+});
+
+test.serial(`addContact | should add a single contact to the DB and return it`, async t => {
+    const contact = await ContactsService.addContact({ name: 'Jerry Seinfeld', phoneNumber: '1222', addressBookId: '12' });
+    const contactDB = await knex('contacts').select('*').where({ name: 'Jerry Seinfeld', phone_number: '1222', address_book_id: '12' });
+    t.is(contactDB.length, 1);
+    t.deepEqual(contact, { name: 'Jerry Seinfeld', phoneNumber: '1222', addressBookId: '12' });
+});
+
+test.serial(`addContact | should throw CONTACT_EXISTS if the contact already exists`, async t => {
+    await knex('contacts').insert({ name: 'Jerry Seinfeld', phone_number: '1222', address_book_id: '12' });
+
+    const error = await t.throwsAsync(ContactsService.addContact({ name: 'Jerry Seinfeld', phoneNumber: '1222', addressBookId: '12' }));
+
+    t.is(error.code, ContactsService.errors.CONTACT_EXISTS);
 });
