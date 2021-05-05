@@ -81,6 +81,17 @@ test.serial(`GET /v1/contacts/{addressBookId} | should return a 404 if the addre
     t.is(response.result.message, 'Contacts not found');
 });
 
+test.serial(`GET /v1/contacts/{addressBookId} | should return a 400 error if the address book ID is not well formed`, async t => {
+    const request = {
+        method: 'GET',
+        url: '/contacts/10175b3b-0d9-47b7-80b2-8a74b050c1b4'
+    };
+
+    const response = await server.inject(request);
+
+    t.is(response.statusCode, 400);
+});
+
 test.serial(`GET /v1/contacts/{addressBookId} | should return all unique contacts between the address book and the compareTo address book`, async t => {
     ContactsService.getContactsMultiple.withArgs({ addressBookIds: ['10175b3b-03d9-47b7-80b2-8a74b050c1b4', '20345b3b-03d9-47b7-80b2-8a74b050c1b4'] }).resolves([
         {
@@ -234,4 +245,26 @@ test.serial(`GET /v1/contacts/{addressBookId} | should return all unique contact
 
     // Ensure the response data is valid
     t.falsy(contactsSchema.contactsList.validate(payload).error);
+});
+
+test.serial(`GET /v1/contacts/{addressBookId} | should return a 400 error if any of the compareTo IDs are not well formed`, async t => {
+    const request = {
+        method: 'GET',
+        url: '/contacts/10175b3b-03d9-47b7-80b2-8a74b050c1b4?compareTo=20345b3b-039-47b7-80b2-8a74b050c1b4,30345b3b-03d9-47b7-80b2-8a74b050c1b4'
+    };
+
+    const response = await server.inject(request);
+
+    t.is(response.statusCode, 400);
+});
+
+test.serial(`GET /v1/contacts/{addressBookId} | should return a 400 error if no compareTo IDs are provided`, async t => {
+    const request = {
+        method: 'GET',
+        url: '/contacts/10175b3b-03d9-47b7-80b2-8a74b050c1b4?compareTo='
+    };
+
+    const response = await server.inject(request);
+
+    t.is(response.statusCode, 400);
 });
