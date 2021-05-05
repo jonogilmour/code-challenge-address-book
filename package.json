@@ -28,6 +28,11 @@
         "start": "docker compose -f docker-compose.yml up --build --abort-on-container-exit",
         "doc": "npx jsdoc -r -d ./doc -c ./jsdoc.json ."
     },
+    "ava": {
+        "require": [
+            "./lib/errors"
+        ]
+    },
     "author": "jonogilmour",
     "license": "ISC",
     "homepage": "https://github.com/jonogilmour"
