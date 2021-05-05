@@ -20,11 +20,11 @@ test.after.always(async t => {
     await mockDb.destroy();
 });
 
-test.serial(`getContacts | should return all contacts in an address book`, async t => {
+test.serial(`getContacts | should return all contacts in an address book, sorted by name`, async t => {
     await knex.batchInsert('contacts', [
         {
-            name: 'Gerald Myers',
-            phone_number: '0441',
+            name: 'Jane Steffen',
+            phone_number: '0445',
             address_book_id: '123'
         },
         {
@@ -33,14 +33,14 @@ test.serial(`getContacts | should return all contacts in an address book`, async
             address_book_id: '123'
         },
         {
-            name: 'Jane Steffen',
-            phone_number: '0445',
-            address_book_id: '123'
-        },
-        {
             name: 'Yukiko Yamada',
             phone_number: '0442',
             address_book_id: '125'
+        },
+        {
+            name: 'Gerald Myers',
+            phone_number: '0441',
+            address_book_id: '123'
         }
     ]);
 
@@ -97,12 +97,12 @@ test.serial(`getContacts | should return an empty array if no contacts were foun
     t.deepEqual((await ContactsService.getContacts({ addressBookId: '600' })).map(x => ({ ...x })), []);
 });
 
-test.serial(`getContactsMultiple | should return all contacts in more than one address book`, async t => {
+test.serial(`getContactsMultiple | should return all contacts in more than one address book, sorted by name`, async t => {
     await knex.batchInsert('contacts', [
         {
-            name: 'Gerald Myers',
-            phone_number: '0441',
-            address_book_id: '123'
+            name: 'Yukiko Yamada',
+            phone_number: '0442',
+            address_book_id: '125'
         },
         {
             name: 'Harold Myers',
@@ -115,9 +115,9 @@ test.serial(`getContactsMultiple | should return all contacts in more than one a
             address_book_id: '123'
         },
         {
-            name: 'Yukiko Yamada',
-            phone_number: '0442',
-            address_book_id: '125'
+            name: 'Gerald Myers',
+            phone_number: '0441',
+            address_book_id: '123'
         }
     ]);
 
