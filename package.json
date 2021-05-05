@@ -25,7 +25,7 @@
         "testw": "npm test -- --watch",
         "testwfor": "MYSQL_DATABASE=jonogilmour_test; PORT=3999; ava --concurrency 1 --verbose --watch -T 15s",
         "start-dev": "node server.js",
-        "start": "docker compose -f docker-compose.yml up --build --abort-on-container-exit",
+        "start": "docker compose rm -f && docker compose -f docker-compose.yml up --build --abort-on-container-exit",
         "doc": "npx jsdoc -r -d ./doc -c ./jsdoc.json ."
     },
     "ava": {
