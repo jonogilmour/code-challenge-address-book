@@ -24,14 +24,15 @@ module.exports.plugin = {
                                 schema: contactsSchema.contactsList
                             },
                             404: {
-                                description: 'The address book or comparison address book cannot be found',
+                                description: 'The address book cannot be found',
                                 schema: validation.statusCode[404]
                             }
                         }
                     }
                 },
                 validate: {
-                    params: contactsSchema.params.getContacts
+                    params: contactsSchema.params.getContacts,
+                    query: contactsSchema.query.getContacts
                 }
             }
         });
