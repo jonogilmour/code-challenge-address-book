@@ -10,7 +10,7 @@ const { ContactsService } = require('../../lib/contactsService');
 const CONTACTS_NOT_FOUND = Symbol('CONTACTS_NOT_FOUND');
 
 /**
- * Sifts out duplicates from a contacts array.
+ * Sifts out duplicates from a contacts array. There can be any number of duplicate contacts present (ie more than 2).
  * @private
  */
 const removeCommon = contacts => {
@@ -38,11 +38,11 @@ module.exports = {
      */
     getContacts: async request => {
         const { addressBookId } = request.params;
-        const { compareTo } = request.query;
+        const compareTo = request.query.compareTo && request.query.compareTo.split(',');
 
         try {
             const contacts = compareTo
-                ? await ContactsService.getContactsMultiple({ addressBookIds: [addressBookId, compareTo] })
+                ? await ContactsService.getContactsMultiple({ addressBookIds: [addressBookId, ...compareTo] })
                 : await ContactsService.getContacts({ addressBookId });
 
             if (!contacts.length) {
