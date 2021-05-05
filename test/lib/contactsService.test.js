@@ -47,21 +47,25 @@ test.serial(`getContacts | should return all contacts in an address book`, async
     t.deepEqual((await ContactsService.getContacts({ addressBookId: '123' })).map(x => ({ ...x })), [
         {
             name: 'Gerald Myers',
-            phoneNumber: '0441'
+            phoneNumber: '0441',
+            addressBookId: '123'
         },
         {
             name: 'Harold Myers',
-            phoneNumber: '0441'
+            phoneNumber: '0441',
+            addressBookId: '123'
         },
         {
             name: 'Jane Steffen',
-            phoneNumber: '0445'
+            phoneNumber: '0445',
+            addressBookId: '123'
         }
     ]);
     t.deepEqual((await ContactsService.getContacts({ addressBookId: '125' })).map(x => ({ ...x })), [
         {
             name: 'Yukiko Yamada',
-            phoneNumber: '0442'
+            phoneNumber: '0442',
+            addressBookId: '125'
         }
     ]);
 });
