@@ -19,26 +19,26 @@ test.afterEach.always(async t => {
 });
 
 test.serial(`GET /v1/contacts/{addressBookId} | should return all contacts in the address book`, async t => {
-    ContactsService.getContacts.withArgs({ addressBookId: '10175b3b-03d9-47b7-80b2-8a74b050c1b4' }).resolves([
+    ContactsService.getContacts.withArgs({ addressBookId: '10' }).resolves([
         {
             name: 'Gerald Myers',
             phoneNumber: '0441',
-            addressBookId: '10175b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '10'
         },
         {
             name: 'Harold Myers',
             phoneNumber: '0441',
-            addressBookId: '10175b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '10'
         },
         {
             name: 'Jane Steffen',
             phoneNumber: '0445',
-            addressBookId: '10175b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '10'
         }
     ]);
     const request = {
         method: 'GET',
-        url: '/contacts/10175b3b-03d9-47b7-80b2-8a74b050c1b4'
+        url: '/contacts/10'
     };
 
     const response = await server.inject(request);
@@ -50,17 +50,17 @@ test.serial(`GET /v1/contacts/{addressBookId} | should return all contacts in th
         {
             name: 'Gerald Myers',
             phoneNumber: '0441',
-            addressBookId: '10175b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '10'
         },
         {
             name: 'Harold Myers',
             phoneNumber: '0441',
-            addressBookId: '10175b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '10'
         },
         {
             name: 'Jane Steffen',
             phoneNumber: '0445',
-            addressBookId: '10175b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '10'
         }
     ]);
 
@@ -69,10 +69,10 @@ test.serial(`GET /v1/contacts/{addressBookId} | should return all contacts in th
 });
 
 test.serial(`GET /v1/contacts/{addressBookId} | should return a 404 if the address book is not found`, async t => {
-    ContactsService.getContacts.withArgs({ addressBookId: '10175b3b-03d9-47b7-80b2-8a74b050c1b4' }).resolves([]);
+    ContactsService.getContacts.withArgs({ addressBookId: '10' }).resolves([]);
     const request = {
         method: 'GET',
-        url: '/contacts/10175b3b-03d9-47b7-80b2-8a74b050c1b4'
+        url: '/contacts/10'
     };
 
     const response = await server.inject(request);
@@ -84,7 +84,7 @@ test.serial(`GET /v1/contacts/{addressBookId} | should return a 404 if the addre
 test.serial(`GET /v1/contacts/{addressBookId} | should return a 400 error if the address book ID is not well formed`, async t => {
     const request = {
         method: 'GET',
-        url: '/contacts/10175b3b-0d9-47b7-80b2-8a74b050c1b4'
+        url: '/contacts/x-9'
     };
 
     const response = await server.inject(request);
@@ -93,51 +93,51 @@ test.serial(`GET /v1/contacts/{addressBookId} | should return a 400 error if the
 });
 
 test.serial(`GET /v1/contacts/{addressBookId} | should return all unique contacts between the address book and the compareTo address book`, async t => {
-    ContactsService.getContactsMultiple.withArgs({ addressBookIds: ['10175b3b-03d9-47b7-80b2-8a74b050c1b4', '20345b3b-03d9-47b7-80b2-8a74b050c1b4'] }).resolves([
+    ContactsService.getContactsMultiple.withArgs({ addressBookIds: ['10', '11'] }).resolves([
         {
             name: 'Baggins Myers',
             phoneNumber: '0441',
-            addressBookId: '20345b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '11'
         },
         {
             name: 'Gerald Myers',
             phoneNumber: '0441',
-            addressBookId: '10175b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '10'
         },
         {
             name: 'Harold Myers',
             phoneNumber: '0441',
-            addressBookId: '10175b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '10'
         },
         {
             name: 'Harold Myers',
             phoneNumber: '0441',
-            addressBookId: '20345b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '11'
         },
         {
             name: 'Jane Steffen',
             phoneNumber: '0445',
-            addressBookId: '10175b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '10'
         },
         {
             name: 'Jane Steffen',
             phoneNumber: '0445',
-            addressBookId: '20345b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '11'
         },
         {
             name: 'Reginald Fredinald',
             phoneNumber: '0446',
-            addressBookId: '10175b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '10'
         },
         {
             name: 'Reginald Fredinald',
             phoneNumber: '0446',
-            addressBookId: '20345b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '11'
         }
     ]);
     const request = {
         method: 'GET',
-        url: '/contacts/10175b3b-03d9-47b7-80b2-8a74b050c1b4?compareTo=20345b3b-03d9-47b7-80b2-8a74b050c1b4'
+        url: '/contacts/10?compareTo=11'
     };
 
     const response = await server.inject(request);
@@ -149,12 +149,12 @@ test.serial(`GET /v1/contacts/{addressBookId} | should return all unique contact
         {
             name: 'Baggins Myers',
             phoneNumber: '0441',
-            addressBookId: '20345b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '11'
         },
         {
             name: 'Gerald Myers',
             phoneNumber: '0441',
-            addressBookId: '10175b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '10'
         }
     ]);
 
@@ -163,61 +163,61 @@ test.serial(`GET /v1/contacts/{addressBookId} | should return all unique contact
 });
 
 test.serial(`GET /v1/contacts/{addressBookId} | should return all unique contacts between the address book and MULTIPLE compareTo address books`, async t => {
-    ContactsService.getContactsMultiple.withArgs({ addressBookIds: ['10175b3b-03d9-47b7-80b2-8a74b050c1b4', '20345b3b-03d9-47b7-80b2-8a74b050c1b4', '30345b3b-03d9-47b7-80b2-8a74b050c1b4'] }).resolves([
+    ContactsService.getContactsMultiple.withArgs({ addressBookIds: ['10', '11', '12'] }).resolves([
         {
             name: 'Baggins Myers',
             phoneNumber: '0441',
-            addressBookId: '20345b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '11'
         },
         {
             name: 'Gerald Myers',
             phoneNumber: '0441',
-            addressBookId: '10175b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '10'
         },
         {
             name: 'Harold Myers',
             phoneNumber: '0441',
-            addressBookId: '10175b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '10'
         },
         {
             name: 'Harold Myers',
             phoneNumber: '0441',
-            addressBookId: '20345b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '11'
         },
         {
             name: 'Harold Myers',
             phoneNumber: '0441',
-            addressBookId: '30345b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '12'
         },
         {
             name: 'Jane Steffen',
             phoneNumber: '0445',
-            addressBookId: '10175b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '10'
         },
         {
             name: 'Jane Steffen',
             phoneNumber: '0445',
-            addressBookId: '20345b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '11'
         },
         {
             name: 'Reginald Fredinald',
             phoneNumber: '0446',
-            addressBookId: '10175b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '10'
         },
         {
             name: 'Reginald Fredinald',
             phoneNumber: '0446',
-            addressBookId: '20345b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '11'
         },
         {
             name: 'Zetta Firenze',
             phoneNumber: '0492',
-            addressBookId: '30345b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '12'
         }
     ]);
     const request = {
         method: 'GET',
-        url: '/contacts/10175b3b-03d9-47b7-80b2-8a74b050c1b4?compareTo=20345b3b-03d9-47b7-80b2-8a74b050c1b4,30345b3b-03d9-47b7-80b2-8a74b050c1b4'
+        url: '/contacts/10?compareTo=11,12'
     };
 
     const response = await server.inject(request);
@@ -229,17 +229,17 @@ test.serial(`GET /v1/contacts/{addressBookId} | should return all unique contact
         {
             name: 'Baggins Myers',
             phoneNumber: '0441',
-            addressBookId: '20345b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '11'
         },
         {
             name: 'Gerald Myers',
             phoneNumber: '0441',
-            addressBookId: '10175b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '10'
         },
         {
             name: 'Zetta Firenze',
             phoneNumber: '0492',
-            addressBookId: '30345b3b-03d9-47b7-80b2-8a74b050c1b4'
+            addressBookId: '12'
         }
     ]);
 
@@ -250,7 +250,7 @@ test.serial(`GET /v1/contacts/{addressBookId} | should return all unique contact
 test.serial(`GET /v1/contacts/{addressBookId} | should return a 400 error if any of the compareTo IDs are not well formed`, async t => {
     const request = {
         method: 'GET',
-        url: '/contacts/10175b3b-03d9-47b7-80b2-8a74b050c1b4?compareTo=20345b3b-039-47b7-80b2-8a74b050c1b4,30345b3b-03d9-47b7-80b2-8a74b050c1b4'
+        url: '/contacts/10?compareTo=a-1,12'
     };
 
     const response = await server.inject(request);
@@ -261,7 +261,7 @@ test.serial(`GET /v1/contacts/{addressBookId} | should return a 400 error if any
 test.serial(`GET /v1/contacts/{addressBookId} | should return a 400 error if no compareTo IDs are provided`, async t => {
     const request = {
         method: 'GET',
-        url: '/contacts/10175b3b-03d9-47b7-80b2-8a74b050c1b4?compareTo='
+        url: '/contacts/10?compareTo='
     };
 
     const response = await server.inject(request);

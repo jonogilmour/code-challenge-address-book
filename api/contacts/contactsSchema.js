@@ -2,7 +2,10 @@
 
 const Joi = require('joi');
 
-const addressBookId = Joi.string().guid({ version: 'uuidv4' }).label('Address book ID').example('eff30086-a381-4fd6-ca55-7af017d25825');
+const addressBookIdPattern = /^[0-9A-Z_]+$/i;
+const multiAddressBookIdPattern = /^([0-9A-Z_]+,?)+$/i;
+
+const addressBookId = Joi.string().pattern(addressBookIdPattern).label('Address book ID').description('Only letters, numbers, and underscores are accepted.').example('Aa123');
 
 const contact = Joi.object({
     name: Joi.string().required().label('Contact name'),
@@ -16,16 +19,14 @@ const params = {
     getContacts: Joi.object({ addressBookId: addressBookId.required() })
 };
 
-const uuidv4s = /^([0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12},?)+$/i;
-
 const query = {
     getContacts: Joi.object({
         compareTo: Joi
             .string()
-            .pattern(uuidv4s)
+            .pattern(multiAddressBookIdPattern)
             .label('Comparison address book IDs')
             .description('One or more address books to compare against. Separate each ID by a comma to compare multiple address books.')
-            .example('eff30086-a381-4fd6-ca55-7af017d25825,fee30086-a381-4fd6-ca95-7af017d2431')
+            .example('e13,a344')
     })
 };
 
