@@ -8,8 +8,8 @@ const multiAddressBookIdPattern = /^([0-9A-Z_]+,?)+$/i;
 const addressBookId = Joi.string().pattern(addressBookIdPattern).label('Address book ID').description('Only letters, numbers, and underscores are accepted.').example('Aa123');
 
 const contact = Joi.object({
-    name: Joi.string().required().label('Contact name'),
-    phoneNumber: Joi.string().required().label('Contact phone number'),
+    name: Joi.string().required().label('Contact name').example('Jimmy Beam'),
+    phoneNumber: Joi.string().required().label('Contact phone number').example('0400123123'),
     addressBookId: addressBookId.required()
 }).required().label('Contact details');
 
