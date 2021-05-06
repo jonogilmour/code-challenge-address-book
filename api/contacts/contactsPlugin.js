@@ -14,7 +14,7 @@ module.exports.plugin = {
             handler: contactsHandler.getContacts,
             config: {
                 description: 'Gets the contacts in an address book.',
-                notes: 'Get only unique contacts between two address books with the `compareTo` param.',
+                notes: 'Get only unique contacts between two or more address books with the `compareTo` param.',
                 tags: ['api'],
                 plugins: {
                     'hapi-swagger': {
