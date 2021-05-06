@@ -38,3 +38,12 @@
 - Run `npm run doc` to build the JSdoc documentation, which is viewable via `/doc/index.html`.
 - You can also run `npm run open-doc` to open the docs in the default browser.
 - Whilst the server is running, visit http://localhost:4000/documentation to see the endpoint documentation.
+
+## Troubleshooting
+If you get an error on startup like:
+```
+#meetings = null;
+    ^
+SyntaxError: Invalid or unexpected token
+```
+Then your node version is too low - the version of HapiJS used will only run on Node v12 or higher.
