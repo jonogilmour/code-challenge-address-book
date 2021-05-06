@@ -27,7 +27,8 @@
         "testwfor": "PORT=3999; ava --concurrency 1 --verbose --watch -T 15s",
         "start-local": "node server.js",
         "start": "docker compose rm -f && docker compose -f docker-compose.yml up --build --abort-on-container-exit",
-        "doc": "npx jsdoc -r -d ./doc -c ./jsdoc.json ."
+        "doc": "npx jsdoc -r -d ./doc -c ./jsdoc.json .",
+        "open-doc": "open doc/index.html"
     },
     "ava": {
         "require": [
